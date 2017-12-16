@@ -12,14 +12,15 @@ then
 fi
 
 DOMAIN=$1
-LETSENCRYPT_DIR="/var/nginx/ssl/live/$DOMAIN"
+SSL_DIR="/etc/nginx/ssl"
+LETSENCRYPT_DIR="$SSL_DIR/live/$DOMAIN"
 
-if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ]; then
-    rm /var/nginx/ssl/ssl.crt
-    rm /var/nginx/ssl/ssl.key
+if [ -d $LETSENCRYPT_DIR ]; then
+    rm $SSL_DIR/ssl.crt
+    rm $SSL_DIR/ssl.key
 
-    ln -s $LETSENCRYPT_DIR/fullchain.pem /var/nginx/ssl/ssl.crt
-    ln -s $LETSENCRYPT_DIR/privkey.pem /var/nginx/ssl/ssl.key
+    ln -s $LETSENCRYPT_DIR/fullchain.pem $SSL_DIR/ssl.crt
+    ln -s $LETSENCRYPT_DIR/privkey.pem $SSL_DIR/ssl.key
 
     echo 'Domain is ready to be served via LetsEncrypt!'
     echo 'To reload nginx, please run:'
