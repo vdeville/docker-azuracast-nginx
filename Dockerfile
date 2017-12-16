@@ -139,8 +139,16 @@ CMD ["nginx", "-g", "daemon off;"]
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx_azuracast.conf /etc/nginx/conf.d/azuracast.conf
 
+VOLUME /etc/nginx/conf.d/
+
 RUN apk update && \
     apk add openssl
 
 RUN mkdir -p /etc/nginx/ssl/
-RUN openssl req -new -nodes -x509 -subj "/C=US/ST=Texas/L=Austin/O=IT/CN=localhost" -days 3650 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -extensions v3_ca
+RUN openssl req -new -nodes -x509 -subj "/C=US/ST=Texas/L=Austin/O=IT/CN=localhost" \
+	-days 3650 -extensions v3_ca \
+	-keyout /etc/nginx/ssl/ssl.key \
+	-out /etc/nginx/ssl/ssl.crt
+
+VOLUME /var/www/letsencrypt
+VOLUME /etc/nginx/ssl
