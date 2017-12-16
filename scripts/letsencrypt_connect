@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+usage ()
+{
+    echo 'Usage: letsencrypt_connect domainname.example.com'
+    exit
+}
+
+if [ "$#" -ne 1 ]
+then
+  usage
+fi
+
+DOMAIN=$1
+LETSENCRYPT_DIR="/var/nginx/ssl/live/$DOMAIN"
+
+if [ -f "$LETSENCRYPT_DIR/fullchain.pem" ]; then
+    rm /var/nginx/ssl/ssl.crt
+    rm /var/nginx/ssl/ssl.key
+
+    ln -s $LETSENCRYPT_DIR/fullchain.pem /var/nginx/ssl/ssl.crt
+    ln -s $LETSENCRYPT_DIR/privkey.pem /var/nginx/ssl/ssl.key
+
+    echo 'Domain is ready to be served via LetsEncrypt!'
+    echo 'To reload nginx, please run:'
+    echo '  docker-compose kill -s SIGHUP nginx'
+    echo ' '
+    exit
+else
+    echo "Domain name $DOMAIN is not set up with LetsEncrypt yet."
+    exit 1
+fi
+

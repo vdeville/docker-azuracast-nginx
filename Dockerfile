@@ -152,3 +152,6 @@ RUN openssl req -new -nodes -x509 -subj "/C=US/ST=Texas/L=Austin/O=IT/CN=localho
 
 VOLUME /var/www/letsencrypt
 VOLUME /etc/nginx/ssl
+
+COPY ./scripts/letsencrypt_connect /usr/bin/letsencrypt_connect
+RUN chmod a+x /usr/bin/letsencrypt_connect
