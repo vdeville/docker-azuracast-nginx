@@ -146,7 +146,7 @@ RUN apk update && \
 
 RUN mkdir -p /etc/nginx/ssl/
 RUN openssl req -new -nodes -x509 -subj "/C=US/ST=Texas/L=Austin/O=IT/CN=localhost" \
-	-days 3650 -extensions v3_ca \
+	-days 365 -extensions v3_ca \
 	-keyout /etc/nginx/ssl/ssl.key \
 	-out /etc/nginx/ssl/ssl.crt
 RUN openssl dhparam -out /etc/nginx/dhparam.pem 4096
