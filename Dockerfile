@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.12-alpine
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx_azuracast.conf /etc/nginx/conf.d/azuracast.conf
